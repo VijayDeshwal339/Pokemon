@@ -50,13 +50,13 @@ const Home = () => {
   };
 
   const handleClearRandomPokemon = () => {
-    setRandomPokemon(null); 
+    setRandomPokemon(null);
   };
 
   const types = [
     ...new Set(pokemons.flatMap((p) => p.types.map((t) => t.type.name))),
   ];
-  
+
   if (!pokemons.length) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -67,6 +67,7 @@ const Home = () => {
 
   return (
     <div className="max-w-7xl mx-auto p-4">
+      {/* Filters */}
       <div className="flex flex-wrap gap-4 justify-center mb-6">
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         <SortOptions sortOption={sortOption} setSortOption={setSortOption} />
@@ -83,16 +84,17 @@ const Home = () => {
         </button>
       </div>
 
+      {/* Random Pokémon */}
       {randomPokemon && (
         <div
           ref={randomRef}
-          className="mb-12 p-8 bg-gradient-to-r from-yellow-200 via-yellow-300 to-yellow-100 rounded-3xl shadow-2xl border-2 border-yellow-400 max-w-lg mx-auto transition-transform transform"
+          className="mb-12 p-6 sm:p-8 bg-gradient-to-r from-yellow-200 via-yellow-300 to-yellow-100 rounded-3xl shadow-2xl border-2 border-yellow-400 w-full max-w-2xl mx-auto transition-transform transform"
         >
-          <h2 className="text-4xl font-extrabold text-center text-yellow-800 mb-6 tracking-wider">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center text-yellow-800 mb-4 sm:mb-6 tracking-wider">
             🎲 Random Pokémon
           </h2>
-          <div className="flex justify-center min-w-sm">
-            <div className="transform hover:scale-105 transition-all duration-300 ease-in-out">
+          <div className="flex justify-center">
+            <div className="w-full max-w-xs sm:max-w-sm transform hover:scale-105 transition-all duration-300 ease-in-out">
               <PokemonCard pokemon={randomPokemon} />
             </div>
           </div>
@@ -107,10 +109,16 @@ const Home = () => {
         </div>
       )}
 
+      {/* Pokémon Grid */}
       {currentPokemons.length ? (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 auto-rows-fr">
           {currentPokemons.map((p) => (
-            <PokemonCard key={p.id} pokemon={p} />
+            <div
+              key={p.id}
+              className="h-auto sm:h-[350px] flex flex-col"
+            >
+              <PokemonCard pokemon={p} />
+            </div>
           ))}
         </div>
       ) : (
@@ -119,6 +127,7 @@ const Home = () => {
         </div>
       )}
 
+      {/* Pagination */}
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
@@ -129,4 +138,3 @@ const Home = () => {
 };
 
 export default Home;
-
